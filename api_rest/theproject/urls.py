@@ -1,12 +1,21 @@
-from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-from .views import ProjectList, ProjectDetail,  ProjectHighlight
+from django.urls import path, include
+from .views import ProjectViewSet, ContributorViewSet, IssueViewSet, CommentViewSet, SignupAPIView
+
+
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'projects', ProjectViewSet)
+router.register(r'contributors', ContributorViewSet)
+router.register(r'issues', IssueViewSet)
+router.register(r'comments', CommentViewSet)
+
 
 urlpatterns = [
-    path('projects/', ProjectList.as_view()),
-    path('projects/<int:pk>/', ProjectDetail.as_view()),
-    path('projects/<int:pk>/highlight/', ProjectHighlight.as_view()),
+    path('', include(router.urls)),
+    path('signup/', SignupAPIView.as_view(), name='signup'),
+
+
 
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)

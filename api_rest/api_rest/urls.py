@@ -17,6 +17,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('theproject.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls'))
 ]
 urlpatterns += [
     path('api-auth/', include('rest_framework.urls')),

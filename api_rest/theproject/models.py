@@ -52,7 +52,7 @@ class Issue(models.Model):
     priority = models.CharField(choices=PRIORITIES, max_length=6, default='LOW')
     project = models.ForeignKey(to=Project, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUS, max_length=11, default='TODO')
-    author = models.ForeignKey('auth.User', related_name='project', on_delete=models.CASCADE)
+    author = models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='project', on_delete=models.CASCADE)
     assignee = models.ForeignKey(to=Contributor, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
