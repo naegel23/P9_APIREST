@@ -1,23 +1,7 @@
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions
 from .permissions import IsAuthorOrReadOnly
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from .models import Project, Contributor, Issue, Comment
-from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer, SignupSerializer
-
-
-class SignupAPIView(APIView):
-
-    @staticmethod
-    def post(request):
-        serializer = SignupSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "Message": "User created successfully"}, status=status.HTTP_201_CREATED
-            )
-
-        return Response({"Errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -56,4 +40,3 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
