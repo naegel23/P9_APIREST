@@ -1,13 +1,14 @@
 from rest_framework import viewsets, permissions
-from .permissions import IsAuthorOrReadOnly
+from .permissions import IsAuthorOrReadOnly, IsContributorOrReadOnly
 from .models import Project, Contributor, Issue, Comment
 from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly, IsContributorOrReadOnly]
     queryset = Project.objects.all()
+    # Project.objects.filter(contributor__user=request.user)
     filterset_fields = ['author', 'type']
     search_fields = ['title', 'type']
 
