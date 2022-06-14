@@ -17,6 +17,8 @@ class IsAuthorContributorOrReadOnly(permissions.BasePermission):
             for i in lst:
                 if request.method in permissions.SAFE_METHODS and i.id == contributor.id:
                     return True
+                else:
+                    return False
         except ObjectDoesNotExist:
             pass
 
