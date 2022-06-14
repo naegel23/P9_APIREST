@@ -1,12 +1,13 @@
 from rest_framework import viewsets, permissions
-from .permissions import IsAuthorOrReadOnly, IsContributorOrReadOnly
+from .permissions import IsAuthorContributorOrReadOnly
 from .models import Project, Contributor, Issue, Comment
 from .serializers import ProjectSerializer, ContributorSerializer, IssueSerializer, CommentSerializer
 
 
+
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly, IsContributorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorContributorOrReadOnly]
     queryset = Project.objects.all()
     # Project.objects.filter(contributor__user=request.user)
     filterset_fields = ['author', 'type']
@@ -25,7 +26,7 @@ class ContributorViewSet(viewsets.ModelViewSet):
 
 class IssueViewSet(viewsets.ModelViewSet):
     serializer_class = IssueSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorContributorOrReadOnly]
     queryset = Issue.objects.all()
     filterset_fields = ['project', 'assignee', 'priority', 'author', 'status']
 
@@ -35,7 +36,7 @@ class IssueViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorContributorOrReadOnly]
     queryset = Comment.objects.all()
     filterset_fields = ['issue']
 
